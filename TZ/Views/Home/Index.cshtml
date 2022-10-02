@@ -1,0 +1,50 @@
+﻿@using TZ.Services
+@using TZ.Models
+@{
+    ViewData["Title"] = "Список подразделений";
+}
+@inject IRealizeServiceA AService
+<div>
+    <h1>Список подразделений:</h1>
+    <hr />
+
+    <form method="post">
+        <div>
+            <label>Название: </label>
+            <input type="text" placeholder="подразделение" name="name"/>
+            <input type="submit" value="Фильтр"/>
+        </div>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <td>№</td>
+                <td>Имя подразделения</td>
+                <td>Статус</td>
+                <td>Входит в:</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int count = 1;
+                foreach(var unit in Model){
+                            <tr>
+                                <td>@count</td>
+                                <td>@unit.Name</td>
+                                <td>@AService.GetStatus(unit)</td>
+                                @{
+                                    count += 1;
+                                    <td>@unit.Parentname</td>
+                                }                  
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <form method="get">
+                <input type="submit" value="Синхронизация данных" />
+            </form>
+
+        </div>
